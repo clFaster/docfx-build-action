@@ -3,11 +3,11 @@ description: "Build DocFX"
 
 inputs:
   docfx-file-path:
-    description: "Path to the docfx.json file"
+    description: "docfx.json file path"
     required: false
     default: ""
   docfx-output-path:
-    description: "Path to the output folder"
+    description: "Specify output folder"
     required: false
     default: ""
 
@@ -17,19 +17,16 @@ runs:
     - name: Build DocFX
       run: |
         parameters=""
-
         if [ -z ${{ inputs.docfx-file-path }}]; then
-          echo "No file specified, using default: working directory"
+          echo "No file specified, using default."
         else
           parameters="${{ inputs.docfx-file-path }}"
         fi
-
         if [ -z ${{ inputs.docfx-output-path }}]; then
-          echo "No output folder specified, using default: _site"
+          echo "No output folder specified, using default."
         else
           parameters="$parameters -o:${{ inputs.docfx-output-path }}"
         fi
-        
         docfx $parameters
       shell: bash
 
