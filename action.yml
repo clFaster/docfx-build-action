@@ -1,0 +1,38 @@
+name: build-docfx
+description: "Build DocFX"
+
+inputs:
+  docfx-file-path:
+    description: "Path to the docfx.json file"
+    required: false
+    default: ""
+  docfx-output-path:
+    description: "Path to the output folder"
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build DocFX
+      run: |
+        parameters=""
+
+        if [ -z ${{ inputs.docfx-file-path }}]; then
+          echo "No file specified, using default: working directory"
+        else
+          parameters="${{ inputs.docfx-file-path }}"
+        fi
+
+        if [ -z ${{ inputs.docfx-output-path }}]; then
+          echo "No output folder specified, using default: _site"
+        else
+          parameters="$parameters -o:${{ inputs.docfx-output-path }}"
+        fi
+        
+        docfx $parameters
+      shell: bash
+
+branding:
+  icon: code
+  color: green
